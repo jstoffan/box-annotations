@@ -3,11 +3,9 @@ import rbush from 'rbush';
 import AnnotationModeController from '../AnnotationModeController';
 import * as util from '../../util';
 import {
-    CLASS_HIDDEN,
     CLASS_ACTIVE,
     CLASS_ANNOTATION_MODE,
     CLASS_ANNNOTATION_MODE_BACKGROUND,
-    SELECTOR_BOX_PREVIEW_BASE_HEADER,
     THREAD_EVENT,
     STATES,
     CONTROLLER_EVENT,
@@ -59,36 +57,6 @@ describe('controllers/AnnotationModeController', () => {
         controller = null;
     });
 
-    describe('init()', () => {
-        it('should init controller', () => {
-            controller.showButton = jest.fn();
-            controller.init({
-                modeButton: {},
-                permissions: { can_annotate: true },
-                intl: intlMock,
-            });
-            expect(controller.showButton).toBeCalled();
-        });
-
-        it('should not show modeButton if none provided', () => {
-            controller.showButton = jest.fn();
-            controller.init({
-                intl: intlMock,
-            });
-            expect(controller.showButton).not.toBeCalled();
-        });
-
-        it('should not show modeButton if none provided', () => {
-            controller.showButton = jest.fn();
-            controller.init({
-                modeButton: {},
-                permissions: { can_annotate: false },
-                intl: intlMock,
-            });
-            expect(controller.showButton).not.toBeCalled();
-        });
-    });
-
     describe('After init', () => {
         beforeEach(() => {
             controller.api = new AnnotationAPI();
@@ -118,106 +86,6 @@ describe('controllers/AnnotationModeController', () => {
             });
         });
 
-        describe('getButton', () => {
-            it('should return the annotation mode button', () => {
-                const buttonEl = document.createElement('button');
-                buttonEl.classList.add('class');
-                controller.headerElement = document.createElement('div');
-                controller.headerElement.appendChild(buttonEl);
-
-                expect(controller.getButton('.class')).not.toBeNull();
-            });
-        });
-
-        describe('showButton()', () => {
-            let buttonEl;
-
-            beforeEach(() => {
-                controller.modeButton = {
-                    type: {
-                        title: 'Annotation Mode',
-                        selector: '.selector',
-                    },
-                };
-                buttonEl = document.createElement('button');
-                buttonEl.title = controller.modeButton.title;
-                buttonEl.classList.add(CLASS_HIDDEN);
-                buttonEl.classList.add('selector');
-                buttonEl.addEventListener = jest.fn();
-
-                controller.permissions = { can_annotate: true };
-                controller.getButton = jest.fn().mockReturnValue(buttonEl);
-            });
-
-            it('should do nothing if user cannot annotate', () => {
-                controller.permissions.can_annotate = false;
-                controller.showButton();
-                expect(buttonEl.classList).toContain(CLASS_HIDDEN);
-            });
-
-            it('should do nothing if the button is not in the container', () => {
-                controller.getButton = jest.fn();
-                controller.showButton();
-                expect(buttonEl.classList).toContain(CLASS_HIDDEN);
-            });
-
-            it('should set up and show an annotate button', () => {
-                controller.showButton();
-                expect(buttonEl.classList).not.toContain(CLASS_HIDDEN);
-                expect(buttonEl.addEventListener).toBeCalledWith('click', controller.toggleMode);
-            });
-            it('should set up and show an annotate button', () => {
-                controller.showButton();
-                expect(buttonEl.classList).not.toContain(CLASS_HIDDEN);
-                expect(buttonEl.addEventListener).toBeCalledWith('click', controller.toggleMode);
-            });
-        });
-
-        describe('hideButton()', () => {
-            let buttonEl;
-
-            beforeEach(() => {
-                controller.modeButton = {
-                    type: {
-                        title: 'Annotation Mode',
-                        selector: '.selector',
-                    },
-                };
-                buttonEl = document.createElement('button');
-                buttonEl.title = controller.modeButton.title;
-                buttonEl.classList.remove(CLASS_HIDDEN);
-                buttonEl.classList.add('selector');
-                buttonEl.addEventListener = jest.fn();
-
-                controller.permissions = { can_annotate: true };
-                controller.getButton = jest.fn().mockReturnValue(buttonEl);
-            });
-
-            it('should do nothing if user cannot annotate', () => {
-                controller.permissions.can_annotate = false;
-                controller.hideButton();
-                expect(buttonEl.classList).not.toContain(CLASS_HIDDEN);
-            });
-
-            it('should do nothing if button is not found', () => {
-                controller.getButton = jest.fn();
-                controller.hideButton();
-                expect(buttonEl.classList).not.toContain(CLASS_HIDDEN);
-            });
-
-            it('should add the bp-is-hidden class to the button', () => {
-                controller.hideButton();
-                expect(buttonEl.classList).toContain(CLASS_HIDDEN);
-            });
-
-            it('should do nothing if no modeButton', () => {
-                controller.modeButton = undefined;
-                controller.permissions.can_annotate = false;
-                controller.hideButton();
-                expect(buttonEl.classList).not.toContain(CLASS_HIDDEN);
-            });
-        });
-
         describe('toggleMode()', () => {
             beforeEach(() => {
                 controller.emit = jest.fn();
@@ -241,7 +109,6 @@ describe('controllers/AnnotationModeController', () => {
             it('should exit annotation mode', () => {
                 controller.unbindListeners = jest.fn();
                 controller.emit = jest.fn();
-                util.replaceHeader = jest.fn();
 
                 // Set up annotation mode
                 controller.annotatedElement = document.createElement('div');
@@ -255,7 +122,6 @@ describe('controllers/AnnotationModeController', () => {
                 expect(controller.emit).toBeCalledWith(CONTROLLER_EVENT.exit, expect.any(Object));
                 expect(controller.unbindListeners).toBeCalled();
                 expect(controller.emit).toBeCalledWith('binddomlisteners');
-                expect(util.replaceHeader).toBeCalledWith(controller.headerElement, SELECTOR_BOX_PREVIEW_BASE_HEADER);
             });
         });
 
@@ -535,19 +401,6 @@ describe('controllers/AnnotationModeController', () => {
                     type,
                     useCapture,
                 });
-            });
-        });
-
-        describe('setupHeader()', () => {
-            it('should insert the new header into the container before the baseheader', () => {
-                util.insertTemplate = jest.fn();
-                const container = {
-                    firstElementChild: 'child',
-                };
-                const header = document.createElement('div');
-
-                controller.setupHeader(container, header);
-                expect(util.insertTemplate).toBeCalledWith(container, header, container.firstElementChild);
             });
         });
 

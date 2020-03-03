@@ -3,15 +3,7 @@ import EventEmitter from 'events';
 import messages from './messages';
 import * as util from './util';
 import './Annotator.scss';
-import {
-    TYPES,
-    STATES,
-    THREAD_EVENT,
-    ANNOTATOR_EVENT,
-    CONTROLLER_EVENT,
-    CLASS_ANNOTATIONS_LOADED,
-    SELECTOR_BOX_PREVIEW_HEADER_CONTAINER,
-} from './constants';
+import { TYPES, STATES, THREAD_EVENT, ANNOTATOR_EVENT, CONTROLLER_EVENT, CLASS_ANNOTATIONS_LOADED } from './constants';
 import FileVersionAPI from './api/FileVersionAPI';
 import i18n from './utils/i18n';
 
@@ -102,17 +94,6 @@ class Annotator extends EventEmitter {
         if (!this.container) {
             this.emit(ANNOTATOR_EVENT.error, this.intl.formatMessage(messages.annotationsLoadError));
             return;
-        }
-
-        // Get the header dom element if selector was passed, in tests
-        this.headerElement = this.options.headerElement;
-        if (typeof this.headerElement === 'string') {
-            this.headerElement = document.querySelector(this.headerElement);
-        }
-        // If using box content preview header and no external header element was specified,
-        // fallback to the container element
-        if (this.options.header !== 'none' && !this.headerElement) {
-            this.headerElement = this.container.querySelector(SELECTOR_BOX_PREVIEW_HEADER_CONTAINER);
         }
 
         this.container.classList.add('ba');
@@ -223,7 +204,6 @@ class Annotator extends EventEmitter {
             const controller = this.modeControllers[type];
             controller.init({
                 container: this.container,
-                headerElement: this.headerElement,
                 annotatedElement: this.annotatedElement,
                 mode: type,
                 modeButton: this.modeButtons[type],
@@ -498,6 +478,7 @@ class Annotator extends EventEmitter {
 
         Object.keys(this.modeControllers).forEach(mode => {
             const annotation = this.modeControllers[mode].getThreadByID(threadID);
+
             if (annotation) {
                 annotation.scrollIntoView();
                 annotation.renderAnnotationPopover();

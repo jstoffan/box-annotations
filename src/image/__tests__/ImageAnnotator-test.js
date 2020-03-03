@@ -159,16 +159,16 @@ describe('image/ImageAnnotator', () => {
     });
 
     describe('scaleAnnotations()', () => {
-        it('should set the scale and rotate the annotations appropriately', () => {
+        it('should set the scale and page appropriately', () => {
             annotator.setScale = jest.fn();
-            annotator.rotateAnnotations = jest.fn();
-            annotator.scaleAnnotations({ scale: 2, rotationAngle: 90, pageNum: 1 });
+            annotator.setPage = jest.fn();
+            annotator.scaleAnnotations({ scale: 2, pageNum: 1 });
             expect(annotator.setScale).toBeCalledWith(2);
-            expect(annotator.rotateAnnotations).toBeCalledWith(90, 1);
+            expect(annotator.setPage).toBeCalledWith(1);
         });
     });
 
-    describe('rotateAnnotations()', () => {
+    describe('setPage()', () => {
         beforeEach(() => {
             annotator.permissions.can_annotate = true;
             util.hideElement = jest.fn();
@@ -182,34 +182,9 @@ describe('image/ImageAnnotator', () => {
         });
 
         it('should only re-render the specified page annotations', () => {
-            annotator.rotateAnnotations(90, 1);
+            annotator.setPage(1);
             expect(annotator.renderPage).toBeCalled();
             expect(annotator.render).not.toBeCalled();
-        });
-
-        it('should only render annotations if user cannot annotate', () => {
-            annotator.permissions.can_annotate = false;
-            annotator.rotateAnnotations();
-            expect(util.hideElement).not.toBeCalled();
-            expect(util.showElement).not.toBeCalled();
-            expect(annotator.render).toBeCalled();
-            expect(annotator.renderPage).not.toBeCalled();
-        });
-
-        it('should hide point annotation button if image is rotated', () => {
-            annotator.rotateAnnotations(90);
-            expect(util.hideElement).toBeCalled();
-            expect(util.showElement).not.toBeCalled();
-            expect(annotator.render).toBeCalled();
-            expect(annotator.renderPage).not.toBeCalled();
-        });
-
-        it('should show point annotation button if image is rotated', () => {
-            annotator.rotateAnnotations();
-            expect(util.hideElement).not.toBeCalled();
-            expect(util.showElement).toBeCalled();
-            expect(annotator.render).toBeCalled();
-            expect(annotator.renderPage).not.toBeCalled();
         });
     });
 

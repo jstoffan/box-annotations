@@ -72,7 +72,6 @@ describe('doc/DocAnnotator', () => {
             },
         });
 
-        annotator.headerElement = document.createElement('div');
         annotator.annotatedElement = document.querySelector(SELECTOR_ANNOTATED_ELEMENT);
         annotator.threads = {};
         annotator.modeControllers = {};

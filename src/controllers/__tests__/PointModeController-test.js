@@ -1,15 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import PointModeController from '../PointModeController';
-import AnnotationModeController from '../AnnotationModeController';
 import * as util from '../../util';
-import {
-    CLASS_ACTIVE,
-    CLASS_ANNOTATION_MODE,
-    THREAD_EVENT,
-    CONTROLLER_EVENT,
-    SELECTOR_ANNOTATION_BUTTON_POINT_EXIT,
-    SELECTOR_POINT_MODE_HEADER,
-} from '../../constants';
+import { CLASS_ACTIVE, CLASS_ANNOTATION_MODE, THREAD_EVENT, CONTROLLER_EVENT } from '../../constants';
 import AnnotationThread from '../../AnnotationThread';
 import Annotator from '../../Annotator';
 
@@ -52,25 +44,6 @@ describe('controllers/PointModeController', () => {
         controller = null;
     });
 
-    describe('init()', () => {
-        it('should set up the point annotations header if using the preview header', () => {
-            Object.defineProperty(AnnotationModeController.prototype, 'init', { value: jest.fn() });
-            controller.setupHeader = jest.fn();
-            controller.init({ options: { header: 'light' } });
-            expect(controller.setupHeader).toBeCalled();
-        });
-    });
-
-    describe('setupHeader', () => {
-        it('should setup header and get all the mode buttons', () => {
-            const blankDiv = document.createElement('div');
-            util.insertTemplate = jest.fn();
-            controller.getButton = jest.fn().mockReturnValue(blankDiv);
-            controller.setupHeader(blankDiv, blankDiv);
-            expect(controller.getButton).toBeCalledWith(SELECTOR_ANNOTATION_BUTTON_POINT_EXIT);
-        });
-    });
-
     describe('setupHandlers()', () => {
         it('should successfully contain mode handlers', () => {
             controller.pushElementHandler = jest.fn();
@@ -96,7 +69,6 @@ describe('controllers/PointModeController', () => {
             // Set up annotation mode
             controller.annotatedElement = document.createElement('div');
             controller.annotatedElement.classList.add(CLASS_ANNOTATION_MODE);
-            controller.headerElement = document.createElement('div');
 
             controller.buttonEl = document.createElement('button');
             controller.buttonEl.classList.add(CLASS_ACTIVE);
@@ -115,11 +87,9 @@ describe('controllers/PointModeController', () => {
     describe('enter()', () => {
         beforeEach(() => {
             controller.bindListeners = jest.fn();
-            util.replaceHeader = jest.fn();
 
             controller.annotatedElement = document.createElement('div');
             controller.annotatedElement.classList.add(CLASS_ANNOTATION_MODE);
-            controller.headerElement = document.createElement('div');
 
             controller.buttonEl = document.createElement('button');
             controller.buttonEl.classList.add(CLASS_ACTIVE);
@@ -129,14 +99,12 @@ describe('controllers/PointModeController', () => {
             controller.enter();
             expect(controller.emit).toBeCalledWith(CONTROLLER_EVENT.enter, expect.any(Object));
             expect(controller.bindListeners).toBeCalled();
-            expect(util.replaceHeader).toBeCalledWith(controller.headerElement, SELECTOR_POINT_MODE_HEADER);
         });
 
         it('should activate mode button if available', () => {
             controller.buttonEl = document.createElement('button');
             controller.enter();
             expect(controller.buttonEl.classList).toContain(CLASS_ACTIVE);
-            expect(util.replaceHeader).toBeCalledWith(controller.headerElement, SELECTOR_POINT_MODE_HEADER);
         });
     });
 

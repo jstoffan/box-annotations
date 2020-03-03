@@ -504,32 +504,6 @@ describe('util', () => {
         });
     });
 
-    describe('replaceHeader()', () => {
-        const newHeader = document.createElement('div');
-        const containerEl = document.createElement('div');
-        const baseHeader = document.createElement('div');
-
-        beforeEach(() => {
-            baseHeader.className = 'bp-header';
-            containerEl.appendChild(baseHeader);
-
-            newHeader.className = 'bp-header bp-mode-header bp-is-hidden';
-            containerEl.appendChild(newHeader);
-        });
-
-        it('should do nothing if no valid header is specified', () => {
-            util.replaceHeader(containerEl, '.bp-invalid-header');
-            expect(baseHeader.classList).not.toContain('bp-is-hidden');
-            expect(newHeader.classList).toContain('bp-is-hidden');
-        });
-
-        it('should hide all headers and then show the specified header', () => {
-            util.replaceHeader(containerEl, '.bp-mode-header');
-            expect(baseHeader.classList).toContain('bp-is-hidden');
-            expect(newHeader.classList).not.toContain('bp-is-hidden');
-        });
-    });
-
     describe('hasValidBoundaryCoordinates()', () => {
         it('return true only if boundary coordinates are valid', () => {
             expect(util.hasValidBoundaryCoordinates({})).toBeFalsy();

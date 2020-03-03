@@ -8,7 +8,6 @@ import {
     SELECTOR_ANNOTATION_CARET,
     CLASS_DISABLED,
     CLASS_HIDDEN,
-    CLASS_BOX_PREVIEW_HEADER,
     SELECTOR_ANNOTATION_MODE,
     CLASS_ANNOTATION_POINT_MARKER,
     CLASS_ANNOTATION_POPOVER,
@@ -24,29 +23,6 @@ const CLIENT_VERSION = __VERSION__;
 //------------------------------------------------------------------------------
 // DOM Utils
 //------------------------------------------------------------------------------
-
-/**
- * Replaces the currently active header with a specified header
- *
- * @param {HTMLElement} containerEl Preview container
- * @param {string} replacementHeader Class name of new header
- * @return {void}
- */
-export function replaceHeader(containerEl, replacementHeader) {
-    const headerToShow = containerEl.querySelector(replacementHeader);
-    if (!headerToShow) {
-        return;
-    }
-
-    // First hide all possible headers
-    const headers = containerEl.querySelectorAll(`.${CLASS_BOX_PREVIEW_HEADER}`);
-    [].forEach.call(headers, header => {
-        header.classList.add(CLASS_HIDDEN);
-    });
-
-    // Show the specified header
-    headerToShow.classList.remove(CLASS_HIDDEN);
-}
 
 /**
  * Finds the closest ancestor DOM element with the specified class.

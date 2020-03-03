@@ -1,27 +1,18 @@
 // @flow
 import AnnotationModeController from './AnnotationModeController';
 import DocDrawingThread from '../doc/DocDrawingThread';
-import { replaceHeader, enableElement, disableElement, clearCanvas, findClosestElWithClass, getPageEl } from '../util';
+import { enableElement, disableElement, clearCanvas, findClosestElWithClass, getPageEl } from '../util';
 import AnnotationAPI from '../api/AnnotationAPI';
 import {
     TYPES,
     STATES,
     THREAD_EVENT,
-    SELECTOR_ANNOTATION_BUTTON_DRAW_CANCEL,
-    SELECTOR_ANNOTATION_BUTTON_DRAW_POST,
-    SELECTOR_ANNOTATION_BUTTON_DRAW_UNDO,
-    SELECTOR_ANNOTATION_BUTTON_DRAW_REDO,
-    SELECTOR_DRAW_MODE_HEADER,
     CLASS_ANNOTATION_LAYER_DRAW,
     CLASS_ANNOTATION_DRAW_MODE,
     CLASS_ANNOTATION_POINT_MARKER,
     ANNOTATOR_TYPE,
     CLASS_ANNOTATION_LAYER_DRAW_IN_PROGRESS,
 } from '../constants';
-import messages from '../messages';
-
-// $FlowFixMe
-import shell from './drawingShell.html';
 
 class DrawingModeController extends AnnotationModeController {
     /** @property {AnnotationThread} - The currently selected DrawingThread */
@@ -44,41 +35,6 @@ class DrawingModeController extends AnnotationModeController {
 
     /** @property {Function} */
     locationFunction: Function;
-
-    /** @inheritdoc */
-    init(data: Object): void {
-        super.init(data);
-
-        // If the header coming from the preview options is not none (e.g.
-        // light, dark, or no value given), then we want to use our draw
-        // header. Otherwise we expect header UI to be handled by Preview’s
-        // consumer
-        if (data.options.header !== 'none' || this.headerElement) {
-            this.setupHeader(this.headerElement, shell);
-        }
-    }
-
-    showButton(): void {
-        super.showButton();
-
-        this.buttonEl.title = this.intl.formatMessage(messages.annotationDrawToggle);
-    }
-
-    /** @inheritdoc */
-    setupHeader(container: HTMLElement, header: HTMLElement): void {
-        super.setupHeader(container, header);
-
-        this.cancelButtonEl = this.getButton(SELECTOR_ANNOTATION_BUTTON_DRAW_CANCEL);
-        this.cancelButtonEl.textContent = this.intl.formatMessage(messages.annotationsCancel);
-
-        this.postButtonEl = this.getButton(SELECTOR_ANNOTATION_BUTTON_DRAW_POST);
-
-        // TODO(@spramod): Remove '||' string, once doneButton is properly localized within Preview
-        this.postButtonEl.textContent = this.intl.formatMessage(messages.annotationsDone);
-
-        this.undoButtonEl = this.getButton(SELECTOR_ANNOTATION_BUTTON_DRAW_UNDO);
-        this.redoButtonEl = this.getButton(SELECTOR_ANNOTATION_BUTTON_DRAW_REDO);
-    }
 
     /**
      * Prevents click events from triggering other annotation types
@@ -266,7 +222,7 @@ class DrawingModeController extends AnnotationModeController {
      */
     enter(): void {
         super.enter();
-        replaceHeader(this.headerElement, SELECTOR_DRAW_MODE_HEADER);
+
         this.annotatedElement.classList.add(CLASS_ANNOTATION_DRAW_MODE);
     }
 

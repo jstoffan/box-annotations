@@ -2,7 +2,7 @@
 import Annotator from '../Annotator';
 import * as util from '../util';
 import * as imageUtil from './imageUtil';
-import { ANNOTATOR_EVENT, TYPES } from '../constants';
+import { ANNOTATOR_EVENT } from '../constants';
 import messages from '../messages';
 
 const IMAGE_NODE_NAME = 'img';
@@ -80,39 +80,20 @@ class ImageAnnotator extends Annotator {
     /** @inheritdoc */
     scaleAnnotations(data: Object) {
         this.setScale(data.scale);
-        this.rotateAnnotations(data.rotationAngle, data.pageNum);
+        this.setPage(data.pageNum);
     }
 
     /**
-     * Rotates annotations. Hides point annotation mode button if rotated
-     *
-     * @param {number} [rotationAngle] - current angle image is rotated
      * @param {number} [pageNum] - Page number
      * @return {void}
      */
-    rotateAnnotations(rotationAngle: number = 0, pageNum: number = 0) {
+    setPage(pageNum: number = 0) {
         // Only render a specific page's annotations unless no page number
         // is specified
         if (pageNum) {
             this.renderPage(pageNum);
         } else {
             this.render();
-        }
-
-        // Only show/hide point annotation button if user has the
-        // appropriate permissions
-        const controller = this.modeControllers[TYPES.point];
-        if (!this.permissions.can_annotate || !controller) {
-            return;
-        }
-
-        // Hide create annotations button if image is rotated
-        const pointButtonSelector = this.modeButtons[TYPES.point].selector;
-        const pointAnnotateButton = controller.getButton(pointButtonSelector);
-        if (rotationAngle !== 0) {
-            util.hideElement(pointAnnotateButton);
-        } else {
-            util.showElement(pointAnnotateButton);
         }
     }
 

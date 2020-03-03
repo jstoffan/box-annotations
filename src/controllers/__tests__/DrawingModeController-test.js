@@ -1,20 +1,8 @@
 /* eslint-disable no-unused-expressions */
 import rbush from 'rbush';
-import AnnotationModeController from '../AnnotationModeController';
 import DrawingModeController from '../DrawingModeController';
 import * as util from '../../util';
-import {
-    STATES,
-    SELECTOR_ANNOTATION_BUTTON_DRAW_CANCEL,
-    SELECTOR_ANNOTATION_BUTTON_DRAW_POST,
-    SELECTOR_ANNOTATION_BUTTON_DRAW_UNDO,
-    SELECTOR_ANNOTATION_BUTTON_DRAW_REDO,
-    SELECTOR_DRAW_MODE_HEADER,
-    CLASS_ANNOTATION_MODE,
-    CLASS_ACTIVE,
-    THREAD_EVENT,
-    CLASS_ANNOTATION_DRAW_MODE,
-} from '../../constants';
+import { CLASS_ACTIVE, CLASS_ANNOTATION_DRAW_MODE, CLASS_ANNOTATION_MODE, STATES, THREAD_EVENT } from '../../constants';
 import DrawingThread from '../../drawing/DrawingThread';
 
 jest.mock('../../drawing/DrawingThread');
@@ -57,32 +45,6 @@ describe('controllers/DrawingModeController', () => {
 
     afterEach(() => {
         controller = null;
-    });
-
-    describe('init()', () => {
-        beforeEach(() => {
-            Object.defineProperty(AnnotationModeController.prototype, 'init', { value: jest.fn() });
-            controller.setupHeader = jest.fn();
-        });
-
-        it('should replace the draw annotations header if using the preview header', () => {
-            controller.init({ options: { header: 'light' } });
-            expect(controller.setupHeader).toBeCalled();
-        });
-    });
-
-    describe('setupHeader', () => {
-        it('should setup header and get all the mode buttons', () => {
-            const blankDiv = document.createElement('div');
-            util.insertTemplate = jest.fn();
-            controller.getButton = jest.fn().mockReturnValue(blankDiv);
-
-            controller.setupHeader(blankDiv, blankDiv);
-            expect(controller.getButton).toBeCalledWith(SELECTOR_ANNOTATION_BUTTON_DRAW_CANCEL);
-            expect(controller.getButton).toBeCalledWith(SELECTOR_ANNOTATION_BUTTON_DRAW_POST);
-            expect(controller.getButton).toBeCalledWith(SELECTOR_ANNOTATION_BUTTON_DRAW_UNDO);
-            expect(controller.getButton).toBeCalledWith(SELECTOR_ANNOTATION_BUTTON_DRAW_REDO);
-        });
     });
 
     describe('cancelDrawing()', () => {
@@ -231,7 +193,6 @@ describe('controllers/DrawingModeController', () => {
     describe('enter()', () => {
         it('should enter annotation mode', () => {
             controller.bindListeners = jest.fn();
-            util.replaceHeader = jest.fn();
 
             controller.annotatedElement = document.createElement('div');
             controller.annotatedElement.classList.add(CLASS_ANNOTATION_MODE);
@@ -240,7 +201,6 @@ describe('controllers/DrawingModeController', () => {
             controller.buttonEl.classList.add(CLASS_ACTIVE);
 
             controller.enter();
-            expect(util.replaceHeader).toBeCalledWith(controller.container, SELECTOR_DRAW_MODE_HEADER);
         });
     });
 

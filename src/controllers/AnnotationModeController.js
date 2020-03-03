@@ -3,13 +3,11 @@ import rbush from 'rbush';
 import EventEmitter from 'events';
 import noop from 'lodash/noop';
 
-import { insertTemplate, replaceHeader, hasValidBoundaryCoordinates } from '../util';
+import { hasValidBoundaryCoordinates } from '../util';
 import {
-    CLASS_HIDDEN,
     CLASS_ACTIVE,
     CLASS_ANNOTATION_MODE,
     CLASS_ANNNOTATION_MODE_BACKGROUND,
-    SELECTOR_BOX_PREVIEW_BASE_HEADER,
     THREAD_EVENT,
     CONTROLLER_EVENT,
     BORDER_OFFSET,
@@ -33,9 +31,6 @@ class AnnotationModeController extends EventEmitter {
 
     /** @property {HTMLElement} - Annotated HTML DOM element */
     annotatedElement: HTMLElement;
-
-    /** @property {HTMLElement} - Header HTML DOM element */
-    headerElement: HTMLElement;
 
     /** @property {HTMLElement} - Annotation mode button HTML DOM element */
     buttonEl: HTMLElement;
@@ -76,9 +71,6 @@ class AnnotationModeController extends EventEmitter {
     /** @property {string} */
     pendingThreadID: ?string;
 
-    /** @property {HTMLElement} */
-    headerElement: HTMLElement;
-
     /** @property {AnnotationThread} */
     currentThread: ?AnnotationThread;
 
@@ -95,7 +87,6 @@ class AnnotationModeController extends EventEmitter {
      */
     init(data: Object): void {
         this.container = data.container;
-        this.headerElement = data.headerElement;
         this.annotatedElement = data.annotatedElement;
         this.mode = data.mode;
         this.fileVersionId = data.fileVersionId;
@@ -112,11 +103,6 @@ class AnnotationModeController extends EventEmitter {
             permissions: this.permissions,
         });
         this.api.addListener(CONTROLLER_EVENT.error, this.handleAPIErrors);
-
-        if (data.modeButton && this.permissions.can_annotate) {
-            this.modeButton = data.modeButton;
-            this.showButton();
-        }
     }
 
     /**
@@ -137,55 +123,6 @@ class AnnotationModeController extends EventEmitter {
 
         if (this.api) {
             this.api.removeListener(CONTROLLER_EVENT.error, this.handleAPIErrors);
-        }
-    }
-
-    /**
-     * Gets the annotation button element.
-     *
-     * @param {string} annotatorSelector - Class selector for a custom annotation button.
-     * @return {HTMLElement|null} Annotate button element or null if the selector did not find an element.
-     */
-    getButton(annotatorSelector: string): HTMLElement {
-        // $FlowFixMe
-        return this.headerElement.querySelector(annotatorSelector);
-    }
-
-    /**
-     * Shows the annotate button for the specified mode
-     *
-     * @return {void}
-     */
-    showButton(): void {
-        if (!this.permissions.can_annotate) {
-            return;
-        }
-
-        this.buttonEl = this.getButton(this.modeButton.selector);
-        // $FlowFixMe
-        if (this.buttonEl) {
-            this.buttonEl.classList.remove(CLASS_HIDDEN);
-
-            // $FlowFixMe
-            this.toggleMode = this.toggleMode.bind(this);
-            // $FlowFixMe
-            this.buttonEl.addEventListener('click', this.toggleMode);
-        }
-    }
-
-    /**
-     * Hides the annotate button for the specified mode
-     *
-     * @return {void}
-     */
-    hideButton() {
-        if (!this.permissions.can_annotate || !this.modeButton) {
-            return;
-        }
-
-        this.buttonEl = this.getButton(this.modeButton.selector);
-        if (this.buttonEl) {
-            this.buttonEl.classList.add(CLASS_HIDDEN);
         }
     }
 
@@ -225,7 +162,6 @@ class AnnotationModeController extends EventEmitter {
         }
 
         this.emit(CONTROLLER_EVENT.exit, { mode: this.mode });
-        replaceHeader(this.headerElement, SELECTOR_BOX_PREVIEW_BASE_HEADER);
 
         this.destroyPendingThreads();
 
@@ -580,18 +516,6 @@ class AnnotationModeController extends EventEmitter {
             type,
             useCapture,
         });
-    }
-
-    /**
-     * Setups the header for the annotation mode
-     *
-     * @param {HTMLElement} container - Container element
-     * @param {HTMLElement} header - Header to add to DOM
-     * @return {void}
-     */
-    setupHeader(container: HTMLElement, header: HTMLElement): void {
-        const baseHeaderEl = container.firstElementChild;
-        insertTemplate(container, header, baseHeaderEl);
     }
 
     /**

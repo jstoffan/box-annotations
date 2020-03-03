@@ -7,12 +7,6 @@ Additional Methods
 ------------------
 `controller.init()` initializes the mode controller.
 
-`controller.getButton(/* String */ controllerSelector)` returns the annotation button element specified by the class selector.
-
-`controller.showButton()` shows the annotate button for the specified annotation mode.
-
-`controller.hideButton()` hides the annotate button for the specified annotation mode.
-
 `controller.toggleMode()` toggles annotation modes on and off. When an annotation mode is on, annotation threads will be created at that location.
 
 `controller.exit()` disables the annotation mode.

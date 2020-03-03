@@ -2,42 +2,10 @@ export const USER_ANONYMOUS = 'Anonymous';
 
 // Preview CSS constants
 export const CLASS_ACTIVE = 'bp-is-active';
-export const SELECTOR_ACTIVE = `.${CLASS_ACTIVE}`;
 export const CLASS_HIDDEN = 'bp-is-hidden';
-export const SELECTOR_HIDDEN = `.${CLASS_HIDDEN}`;
-export const CLASS_INVISIBLE = 'bp-is-invisible';
-export const SELECTOR_INVISIBLE = `.${CLASS_INVISIBLE}`;
 export const CLASS_DISABLED = 'is-disabled';
-export const SELECTOR_DISABLED = `.${CLASS_DISABLED}`;
-export const CLASS_FOCUSED = 'ba-is-focused';
-export const SELECTOR_FOCUSED = `.${CLASS_FOCUSED}`;
 
-export const CLASS_BUTTON = 'bp-btn';
-export const SELECTOR_BUTTON = `.${CLASS_BUTTON}`;
-export const CLASS_BUTTON_PLAIN = 'bp-btn-plain';
-export const SELECTOR_BUTTON_PLAIN = `.${CLASS_BUTTON_PLAIN}`;
-export const CLASS_BUTTON_PRIMARY = 'bp-btn-primary';
-export const SELECTOR_BUTTON_PRIMARY = `.${CLASS_BUTTON_PRIMARY}`;
-
-export const CLASS_BOX_PREVIEW_HEADER = 'bp-header';
-export const SELECTOR_BOX_PREVIEW_HEADER = `.${CLASS_BOX_PREVIEW_HEADER}`;
-export const CLASS_BOX_PREVIEW_BASE_HEADER = 'bp-base-header';
-export const SELECTOR_BOX_PREVIEW_BASE_HEADER = `.${CLASS_BOX_PREVIEW_BASE_HEADER}`;
-export const CLASS_ANNOTATION_BUTTON_POINT = 'bp-btn-annotate-point';
-export const SELECTOR_ANNOTATION_BUTTON_POINT = `.${CLASS_ANNOTATION_BUTTON_POINT}`;
-export const CLASS_ANNOTATION_BUTTON_DRAW = 'bp-btn-annotate-draw';
-export const SELECTOR_ANNOTATION_BUTTON_DRAW = `.${CLASS_ANNOTATION_BUTTON_DRAW}`;
-export const CLASS_ANNOTATION_BUTTON_DRAW_ENTER = 'bp-btn-annotate-draw-enter';
-export const SELECTOR_ANNOTATION_BUTTON_DRAW_ENTER = `.${CLASS_ANNOTATION_BUTTON_DRAW_ENTER}`;
-export const CLASS_BOX_PREVIEW_HEADER_CONTAINER = 'bp-header-container';
-export const SELECTOR_BOX_PREVIEW_HEADER_CONTAINER = `.${CLASS_BOX_PREVIEW_HEADER_CONTAINER}`;
-
-export const CLASS_BOX_PREVIEW = 'bp';
-export const SELECTOR_BOX_PREVIEW = `.${CLASS_BOX_PREVIEW}`;
 export const CLASS_PREVIEW_PRESENTATION = 'bp-doc-presentation';
-export const SELECTOR_PREVIEW_PRESENTATION = `.${CLASS_PREVIEW_PRESENTATION}`;
-export const CLASS_TEXT_LAYER = 'textLayer';
-export const SELECTOR_TEXT_LAYER = `.${CLASS_TEXT_LAYER}`;
 
 // Annotation CSS constants
 export const CLASS_ANNOTATED_ELEMENT = 'annotated-element';
@@ -89,18 +57,6 @@ export const CLASS_HIGHLIGHT_QUAD_CORNER_CONTAINER = 'ba-quad-corner-container';
 export const SELECTOR_HIGHLIGHT_QUAD_CORNER_CONTAINER = `.${CLASS_HIGHLIGHT_QUAD_CORNER_CONTAINER}`;
 export const CLASS_HIGHLIGHT_QUAD_CORNER = 'ba-quad-corner';
 export const SELECTOR_HIGHLIGHT_QUAD_CORNER = `.${CLASS_HIGHLIGHT_QUAD_CORNER}`;
-
-// Drawing CSS constants
-export const CLASS_ANNOTATION_DRAW = 'ba-annotation-draw';
-export const SELECTOR_ANNOTATION_DRAW = `.${CLASS_ANNOTATION_DRAW}`;
-export const CLASS_ANNOTATION_BUTTON_DRAW_UNDO = 'ba-btn-annotate-draw-undo';
-export const SELECTOR_ANNOTATION_BUTTON_DRAW_UNDO = `.${CLASS_ANNOTATION_BUTTON_DRAW_UNDO}`;
-export const CLASS_ANNOTATION_BUTTON_DRAW_REDO = 'ba-btn-annotate-draw-redo';
-export const SELECTOR_ANNOTATION_BUTTON_DRAW_REDO = `.${CLASS_ANNOTATION_BUTTON_DRAW_REDO}`;
-export const CLASS_ANNOTATION_BUTTON_DRAW_POST = 'ba-btn-annotate-draw-post';
-export const SELECTOR_ANNOTATION_BUTTON_DRAW_POST = `.${CLASS_ANNOTATION_BUTTON_DRAW_POST}`;
-export const CLASS_ANNOTATION_BUTTON_DRAW_CANCEL = 'ba-btn-annotate-draw-cancel';
-export const SELECTOR_ANNOTATION_BUTTON_DRAW_CANCEL = `.${CLASS_ANNOTATION_BUTTON_DRAW_CANCEL}`;
 
 // Data types
 export const DATA_TYPE_ANNOTATION_INDICATOR = 'annotation-indicator';

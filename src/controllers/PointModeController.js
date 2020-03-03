@@ -3,52 +3,12 @@ import AnnotationModeController from './AnnotationModeController';
 import DocPointThread from '../doc/DocPointThread';
 import ImagePointThread from '../image/ImagePointThread';
 import AnnotationAPI from '../api/AnnotationAPI';
-import {
-    TYPES,
-    THREAD_EVENT,
-    CLASS_ACTIVE,
-    SELECTOR_POINT_MODE_HEADER,
-    SELECTOR_ANNOTATION_BUTTON_POINT_EXIT,
-    CLASS_ANNOTATION_POINT_MODE,
-    ANNOTATOR_TYPE,
-} from '../constants';
-import messages from '../messages';
-import { replaceHeader, isInAnnotationOrMarker } from '../util';
-
-// $FlowFixMe
-import shell from './pointShell.html';
+import { TYPES, THREAD_EVENT, CLASS_ACTIVE, CLASS_ANNOTATION_POINT_MODE, ANNOTATOR_TYPE } from '../constants';
+import { isInAnnotationOrMarker } from '../util';
 
 class PointModeController extends AnnotationModeController {
     /** @property {HTMLElement} - The button to exit point annotation mode */
     exitButtonEl: HTMLElement;
-
-    /** @inheritdoc */
-    init(data: Object): void {
-        super.init(data);
-
-        // If the header coming from the preview options is not none (e.g.
-        // light, dark, or no value given), then we want to use our draw
-        // header. Otherwise we expect header UI to be handled by Preview’s
-        // consumer
-        if (data.options.header !== 'none' || this.headerElement) {
-            this.setupHeader(this.headerElement, shell);
-        }
-    }
-
-    showButton(): void {
-        super.showButton();
-        this.buttonEl.title = this.intl.formatMessage(messages.annotationPointToggle);
-    }
-
-    /** @inheritdoc */
-    setupHeader(container: HTMLElement, header: HTMLElement): void {
-        super.setupHeader(container, header);
-
-        this.exitButtonEl = this.getButton(SELECTOR_ANNOTATION_BUTTON_POINT_EXIT);
-
-        // TODO(@spramod): Remove '||' string, once closeButton is properly localized
-        this.exitButtonEl.textContent = this.intl.formatMessage(messages.annotationsClose);
-    }
 
     /** @inheritdoc */
     setupHandlers(): void {
@@ -80,7 +40,7 @@ class PointModeController extends AnnotationModeController {
     /** @inheritdoc */
     enter(): void {
         super.enter();
-        replaceHeader(this.headerElement, SELECTOR_POINT_MODE_HEADER);
+
         this.annotatedElement.classList.add(CLASS_ANNOTATION_POINT_MODE);
 
         if (this.buttonEl) {

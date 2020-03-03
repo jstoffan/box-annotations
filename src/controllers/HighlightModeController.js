@@ -10,7 +10,6 @@ import {
     CLASS_ANNOTATION_LAYER_HIGHLIGHT,
     CLASS_ANNOTATION_LAYER_HIGHLIGHT_COMMENT,
 } from '../constants';
-import messages from '../messages';
 
 class HighlightModeController extends AnnotationModeController {
     /** @property {boolean} */
@@ -32,11 +31,6 @@ class HighlightModeController extends AnnotationModeController {
         }
 
         super.handleThreadEvents(thread, data);
-    }
-
-    showButton(): void {
-        super.showButton();
-        this.buttonEl.title = this.intl.formatMessage(messages.annotationHighlightToggle);
     }
 
     /** @inheritdoc */

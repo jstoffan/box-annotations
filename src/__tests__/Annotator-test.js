@@ -7,7 +7,6 @@ import {
     THREAD_EVENT,
     CONTROLLER_EVENT,
     SELECTOR_ANNOTATED_ELEMENT,
-    SELECTOR_BOX_PREVIEW_HEADER_CONTAINER,
 } from '../constants';
 import * as util from '../util';
 import AnnotationThread from '../AnnotationThread';
@@ -103,18 +102,6 @@ describe('Annotator', () => {
             annotator.options.container = 'bp-container';
             annotator.init(5);
             expect(annotator.container).not.toBeUndefined();
-        });
-
-        it('should set the headerElement based on class selector', () => {
-            annotator.options.headerElement = 'bp-header';
-            annotator.init(5);
-            expect(annotator.headerElement).not.toBeUndefined();
-        });
-
-        it('should set the headerElement to the container as a fallback', () => {
-            annotator.options.header = 'light';
-            annotator.init(5);
-            expect(annotator.headerElement).toEqual(document.querySelector(SELECTOR_BOX_PREVIEW_HEADER_CONTAINER));
         });
 
         it('should emit error if no container exists', () => {
