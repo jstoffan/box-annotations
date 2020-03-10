@@ -76,7 +76,7 @@ class HighlightModeController extends AnnotationModeController {
 
     /** @inheritdoc */
     instantiateThread(params: Object): ?DocHighlightThread {
-        return this.annotatorType === ANNOTATOR_TYPE.document ? new DocHighlightThread(params, this.canComment) : null;
+        // return this.annotatorType === ANNOTATOR_TYPE.document ? new DocHighlightThread(params, this.canComment) : null;
     }
 }
 

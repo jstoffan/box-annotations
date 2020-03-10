@@ -1,0 +1,89 @@
+.ba {
+    $popup-arrow-size: 12px;
+    $popup-content-bg: #fff;
+    $popup-footer-bg: #fafafa;
+
+    .ba-Popup {
+        &[data-popper-placement='top'] {
+            .ba-Popup-arrow {
+                top: auto;
+                bottom: 0;
+
+                &::before,
+                &::after {
+                    transform: rotate(0) translateX(-50%);
+                }
+
+                &::after {
+                    top: -1px;
+                }
+            }
+        }
+    }
+
+    .ba-Popup-arrow {
+        top: -#{$popup-arrow-size - 1};
+
+        &::before,
+        &::after {
+            position: absolute;
+            display: block;
+            transform: rotate(180deg) translateX(50%);
+            content: '';
+        }
+
+        &::before {
+            border-top: $popup-arrow-size solid #ddd;
+            border-right: $popup-arrow-size solid transparent;
+            border-left: $popup-arrow-size solid transparent;
+        }
+
+        &::after {
+            top: 2px;
+            border-top: $popup-arrow-size - 2 solid $popup-content-bg;
+            border-right: $popup-arrow-size - 2 solid transparent;
+            border-left: $popup-arrow-size - 2 solid transparent;
+        }
+    }
+
+    .ba-Popup-content {
+        overflow: hidden;
+        background-color: $popup-content-bg;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        box-shadow: rgba(0, 0, 0, .5) 0 0 2px;
+    }
+
+    .ba-Popup-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 8px;
+        background-color: $popup-footer-bg;
+        border-top: 1px solid #ddd;
+    }
+
+    .ba-Popup-text {
+        &,
+        &:hover,
+        &:focus {
+            min-height: 80px;
+            padding: 8px;
+            border: 1px solid transparent;
+            box-shadow: none;
+            resize: none;
+        }
+    }
+
+    .ba-PopupMessage {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .ba-PopupMessage-author {
+        font-weight: bold;
+    }
+
+    .ba-PopupMessage-message {
+        margin-top: 4px;
+    }
+}

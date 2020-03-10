@@ -181,6 +181,7 @@ class DocHighlightThread extends AnnotationThread {
             case STATES.active:
                 this.renderAnnotationPopover();
                 this.draw(HIGHLIGHT_FILL.active);
+                this.renderAnnotationPopover();
                 break;
             default:
                 break;

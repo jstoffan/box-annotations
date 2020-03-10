@@ -130,8 +130,8 @@ export const ANNOTATOR_TYPE = {
 };
 
 export const HIGHLIGHT_FILL = {
-    normal: 'rgba(254, 217, 78, 0.5)',
-    active: 'rgba(255, 201, 0, 0.5)',
+    normal: 'rgba(255, 160, 0, 0.25)',
+    active: 'rgba(255, 160, 0, 0.60)',
     erase: 'rgba(255, 245, 132, 1)',
 };
 

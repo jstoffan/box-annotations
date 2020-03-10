@@ -1,0 +1,31 @@
+.ba-Highlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: all;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.ba-Highlights {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.ba-HighlightsCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+}

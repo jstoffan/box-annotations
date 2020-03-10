@@ -7,10 +7,8 @@
 import type { $AxiosError, Axios, CancelTokenSource } from 'axios';
 import EventEmitter from 'events';
 import AnnotationThread from '../src/AnnotationThread';
-import DrawingThread from '../src/draw/DrawingThread';
 import DocHighlightThread from '../src/doc/DocHighlightThread';
 import DrawingPath from '../src/drawing/DrawingPath';
-import CreateHighlightDialog from '../src/doc/CreateHighlightDialog';
 
 type StringMap = { [string]: string };
 type AnnotationPermissions = {
@@ -150,7 +148,7 @@ export type IntlOptions = {
     messages?: Object,
     language?: string,
     locale?: string,
-}
+};
 
 type StringAnyMap = { [string]: any };
 type AnnotationMap = { [string]: AnnotationData };

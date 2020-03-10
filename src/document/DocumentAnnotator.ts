@@ -1,6 +1,7 @@
 // @flow
 import BaseAnnotator, { Options } from '../common/BaseAnnotator';
 import BaseManager from '../common/BaseManager';
+import HighlightManager from '../highlights/HighlightManager';
 import RegionManager from '../region/RegionManager';
 import { ANNOTATOR_EVENT, CLASS_ANNOTATIONS_LOADED } from '../constants';
 
@@ -30,6 +31,7 @@ export default class DocumentAnnotator extends BaseAnnotator {
         // Lazily instantiate managers as pages are added or re-rendered
         if (managers.length === 0) {
             // Add additional managers here for other annotation types
+            managers.push(new HighlightManager({ page: pageNumber, pageEl }));
             managers.push(new RegionManager({ page: pageNumber, pageEl }));
         }
 
