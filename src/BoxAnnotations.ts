@@ -2,14 +2,14 @@ import getProp from 'lodash/get';
 import DocumentAnnotator from './document/DocumentAnnotator';
 import { Permissions, PERMISSIONS, Type } from './@types';
 
-type Annotator = {
+export type Annotator = {
     CONSTRUCTOR: typeof DocumentAnnotator;
     NAME: string;
     TYPES: string[];
     VIEWERS: string[];
 };
 
-type PreviewOptions = {
+export type PreviewOptions = {
     file?: {
         permissions?: Permissions;
     };
@@ -18,16 +18,16 @@ type PreviewOptions = {
     };
 };
 
-type ViewerConfig = {
+export type ViewerConfig = {
     enabled?: boolean;
     enabledTypes?: string[];
 };
 
-type ViewerOption = {
+export type ViewerOption = {
     enabledTypes?: string[];
 };
 
-type ViewerOptions = Record<string, ViewerOption>;
+export type ViewerOptions = Record<string, ViewerOption>;
 
 /**
  * NAME: The name of the annotator.
