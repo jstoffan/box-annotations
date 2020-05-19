@@ -4,6 +4,7 @@ import RegionRect from './RegionRect';
 import useAutoScroll from '../common/useAutoScroll';
 import { Rect } from '../@types';
 import './RegionCreator.scss';
+import RegionSvg from './RegionSvg';
 
 type Props = {
     canDraw: boolean;
@@ -46,6 +47,8 @@ export default function RegionCreator({ canDraw, className, onStart, onStop }: P
         const { current: y1 } = positionY1Ref;
         const { current: x2 } = positionX2Ref;
         const { current: y2 } = positionY2Ref;
+
+        // console.log('getShape', creatorRef, x1, x2, y1, y2);
 
         if (!creatorRef || !x1 || !x2 || !y1 || !y2) {
             return null;
@@ -164,6 +167,8 @@ export default function RegionCreator({ canDraw, className, onStart, onStop }: P
         const { current: regionRect } = regionRectRef;
         const { height = 0, width = 0, x = 0, y = 0 } = getShape() || {};
 
+        console.log('renderRect', regionRect, isDirty, height, width, x, y);
+
         if (regionRect && isDirty) {
             regionRect.setAttribute('height', `${height}`);
             regionRect.setAttribute('width', `${width}`);
@@ -205,13 +210,13 @@ export default function RegionCreator({ canDraw, className, onStart, onStop }: P
     });
 
     return (
-        <svg
+        <RegionSvg
             ref={creatorSvgRef}
             className={classNames(className, 'ba-RegionCreator', { 'is-active': canDraw })}
             data-testid="ba-RegionCreator"
             {...eventHandlers}
         >
-            {isDrawing && <RegionRect ref={regionRectRef} />}
-        </svg>
+            <RegionRect ref={regionRectRef} isActive />
+        </RegionSvg>
     );
 }

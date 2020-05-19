@@ -6,6 +6,7 @@ import RegionList from './RegionList';
 import RegionRect from './RegionRect';
 import { AnnotationRegion, Rect } from '../@types';
 import { CreatorItem, CreatorStatus } from '../store/creator';
+import RegionSvg from './RegionSvg';
 import { scaleShape } from './regionUtil';
 import './RegionAnnotations.scss';
 
@@ -117,9 +118,9 @@ export default class RegionAnnotations extends React.PureComponent<Props, State>
 
                 {/* Layer 3a: Staged (unsaved) annotation target, if any */}
                 {isCreating && staged && (
-                    <svg className="ba-RegionAnnotations-target">
-                        <RegionRect ref={this.setRectRef} {...scaleShape(staged.shape, scale)} />
-                    </svg>
+                    <RegionSvg className="ba-RegionAnnotations-target">
+                        <RegionRect ref={this.setRectRef} isActive {...scaleShape(staged.shape, scale)} />
+                    </RegionSvg>
                 )}
 
                 {/* Layer 3b: Staged (unsaved) annotation description popup, if 3a is ready */}

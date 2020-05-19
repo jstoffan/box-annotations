@@ -4,6 +4,7 @@ import noop from 'lodash/noop';
 import RegionAnnotation from './RegionAnnotation';
 import useOutsideEvent from '../common/useOutsideEvent';
 import { AnnotationRegion } from '../@types';
+import RegionSvg from './RegionSvg';
 import { scaleShape } from './regionUtil';
 
 export type Props = {
@@ -31,7 +32,7 @@ export function RegionList({ activeId, annotations, className, onSelect = noop, 
     useOutsideEvent('mouseup', svgRef, (): void => setIsListening(true));
 
     return (
-        <svg ref={svgRef} className={classNames(className, { 'is-listening': isListening })}>
+        <RegionSvg ref={svgRef} className={classNames(className, { 'is-listening': isListening })}>
             {sortedAnnotations.map(({ id, target }) => (
                 <RegionAnnotation
                     key={id}
@@ -41,7 +42,7 @@ export function RegionList({ activeId, annotations, className, onSelect = noop, 
                     shape={scaleShape(target.shape, scale)}
                 />
             ))}
-        </svg>
+        </RegionSvg>
     );
 }
 

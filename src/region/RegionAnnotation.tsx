@@ -19,7 +19,7 @@ const RegionAnnotation = (props: Props, ref: React.Ref<HTMLAnchorElement>): JSX.
 
     return (
         <AnnotationTarget ref={ref} className={className} isActive={isActive} {...rest}>
-            <RegionRect {...shape} />
+            <RegionRect isActive={isActive} {...shape} />
         </AnnotationTarget>
     );
 };
