@@ -16,14 +16,17 @@
     }
 }
 
+.ba-RegionAnnotations-list,
+.ba-RegionAnnotations-target {
+    pointer-events: none;
+}
+
 .ba-RegionAnnotations-creator {
     pointer-events: auto;
     touch-action: none;
 }
 
 .ba-RegionAnnotations-list {
-    pointer-events: none;
-
     &.is-listening {
         .ba-AnnotationTarget {
             pointer-events: auto; // Delegate event control to avoid re-rendering every target on mousedown/up
@@ -31,6 +34,8 @@
     }
 }
 
-.ba-RegionAnnotations-popup {
-    pointer-events: auto; // Swallow all pointer events that occur within the popup
+.ba-RegionAnnotations-target {
+    .ba-Popup {
+        pointer-events: auto; // Swallow all pointer events that occur within the popup
+    }
 }

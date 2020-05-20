@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import RegionRect from './RegionRect';
+import RegionRect, { getRegionStyle, RegionRectRef } from './RegionRect';
 import useAutoScroll from '../common/useAutoScroll';
 import { Rect } from '../@types';
 import './RegionCreator.scss';
@@ -12,46 +12,47 @@ type Props = {
     onStop: (shape: Rect) => void;
 };
 
-const MIN_X = 1; // Minimum region x position must be positive
-const MIN_Y = 1; // Minimum region y position must be positive
+const MIN_X = 0; // Minimum region x position must be positive
+const MIN_Y = 0; // Minimum region y position must be positive
 const MIN_SIZE = 10; // Minimum region size must be large enough to be clickable
 const MOUSE_PRIMARY = 1; // Primary mouse button
 
 export default function RegionCreator({ canDraw, className, onStart, onStop }: Props): JSX.Element {
     const [isDrawing, setIsDrawing] = React.useState<boolean>(false);
-    const creatorSvgRef = React.useRef<SVGSVGElement | null>(null);
+    const [isReady, setIsReady] = React.useState<boolean>(false);
+    const creatorElRef = React.useRef<HTMLDivElement>(null);
     const positionX1Ref = React.useRef<number | null>(null);
     const positionX2Ref = React.useRef<number | null>(null);
     const positionY1Ref = React.useRef<number | null>(null);
     const positionY2Ref = React.useRef<number | null>(null);
     const regionDirtyRef = React.useRef<boolean>(false);
-    const regionRectRef = React.useRef<SVGRectElement | null>(null);
+    const regionTargetRef = React.useRef<RegionRectRef>(null);
     const renderHandleRef = React.useRef<number | null>(null);
 
     // Drawing Helpers
     const getPosition = (x: number, y: number): [number, number] => {
-        const { current: creatorRef } = creatorSvgRef;
+        const { current: creatorEl } = creatorElRef;
 
-        if (!creatorRef) {
+        if (!creatorEl) {
             return [x, y];
         }
 
         // Calculate the new position based on the mouse position less the page offset
-        const { left, top } = creatorRef.getBoundingClientRect();
+        const { left, top } = creatorEl.getBoundingClientRect();
         return [x - left, y - top];
     };
     const getShape = (): Rect | null => {
-        const { current: creatorRef } = creatorSvgRef;
+        const { current: creatorEl } = creatorElRef;
         const { current: x1 } = positionX1Ref;
         const { current: y1 } = positionY1Ref;
         const { current: x2 } = positionX2Ref;
         const { current: y2 } = positionY2Ref;
 
-        if (!creatorRef || !x1 || !x2 || !y1 || !y2) {
+        if (!creatorEl || !x1 || !x2 || !y1 || !y2) {
             return null;
         }
 
-        const { height, width } = creatorRef.getBoundingClientRect();
+        const { height, width } = creatorEl.getBoundingClientRect();
         const MAX_X = Math.max(0, width - MIN_X);
         const MAX_Y = Math.max(0, height - MIN_Y);
 
@@ -75,6 +76,7 @@ export default function RegionCreator({ canDraw, className, onStart, onStop }: P
         const [x1, y1] = getPosition(x, y);
 
         setIsDrawing(true);
+        setIsReady(false);
 
         positionX1Ref.current = x1;
         positionY1Ref.current = y1;
@@ -88,6 +90,7 @@ export default function RegionCreator({ canDraw, className, onStart, onStop }: P
         const shape = getShape();
 
         setIsDrawing(false);
+        setIsReady(false);
 
         positionX1Ref.current = null;
         positionY1Ref.current = null;
@@ -105,6 +108,8 @@ export default function RegionCreator({ canDraw, className, onStart, onStop }: P
         positionX2Ref.current = x2;
         positionY2Ref.current = y2;
         regionDirtyRef.current = true;
+
+        setIsReady(true);
     };
 
     // Event Handlers
@@ -161,14 +166,14 @@ export default function RegionCreator({ canDraw, className, onStart, onStop }: P
     };
     const renderRect = (): void => {
         const { current: isDirty } = regionDirtyRef;
-        const { current: regionRect } = regionRectRef;
-        const { height = 0, width = 0, x = 0, y = 0 } = getShape() || {};
+        const { current: regionRect } = regionTargetRef;
+        const shape = getShape();
 
-        if (regionRect && isDirty) {
-            regionRect.setAttribute('height', `${height}`);
-            regionRect.setAttribute('width', `${width}`);
-            regionRect.setAttribute('x', `${x}`);
-            regionRect.setAttribute('y', `${y}`);
+        if (regionRect && shape && isDirty) {
+            // Directly set the style attribute
+            Object.assign(regionRect.style, getRegionStyle(shape));
+
+            // Reset the dirty state to avoid multiple renders
             regionDirtyRef.current = false;
         }
 
@@ -201,17 +206,17 @@ export default function RegionCreator({ canDraw, className, onStart, onStop }: P
     useAutoScroll({
         enabled: isDrawing,
         onScroll: handleScroll,
-        reference: creatorSvgRef.current,
+        reference: creatorElRef.current,
     });
 
     return (
-        <svg
-            ref={creatorSvgRef}
+        <div
+            ref={creatorElRef}
             className={classNames(className, 'ba-RegionCreator', { 'is-active': canDraw })}
             data-testid="ba-RegionCreator"
             {...eventHandlers}
         >
-            {isDrawing && <RegionRect ref={regionRectRef} />}
-        </svg>
+            {isDrawing && isReady && <RegionRect ref={regionTargetRef} isActive />}
+        </div>
     );
 }

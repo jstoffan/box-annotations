@@ -3,7 +3,7 @@ import * as React from 'react';
 import PopupReply from '../components/Popups/PopupReply';
 import RegionCreator from './RegionCreator';
 import RegionList from './RegionList';
-import RegionRect from './RegionRect';
+import RegionRect, { RegionRectRef } from './RegionRect';
 import { AnnotationRegion, Rect } from '../@types';
 import { CreatorItem, CreatorStatus } from '../store/creator';
 import { scaleShape } from './regionUtil';
@@ -24,7 +24,7 @@ type Props = {
 };
 
 type State = {
-    rectRef?: SVGRectElement;
+    targetRef?: RegionRectRef;
 };
 
 export default class RegionAnnotations extends React.PureComponent<Props, State> {
@@ -83,13 +83,13 @@ export default class RegionAnnotations extends React.PureComponent<Props, State>
         createRegion(staged);
     };
 
-    setRectRef = (rectRef: SVGRectElement): void => {
-        this.setState({ rectRef });
+    setTargetRef = (targetRef: RegionRectRef): void => {
+        this.setState({ targetRef });
     };
 
     render(): JSX.Element {
         const { activeAnnotationId, annotations, isCreating, scale, staged, status } = this.props;
-        const { rectRef } = this.state;
+        const { targetRef } = this.state;
         const canDraw = !staged || !staged.message;
         const canReply = status !== CreatorStatus.init;
         const isPending = status === CreatorStatus.pending;
@@ -117,20 +117,20 @@ export default class RegionAnnotations extends React.PureComponent<Props, State>
 
                 {/* Layer 3a: Staged (unsaved) annotation target, if any */}
                 {isCreating && staged && (
-                    <svg className="ba-RegionAnnotations-target">
-                        <RegionRect ref={this.setRectRef} {...scaleShape(staged.shape, scale)} />
-                    </svg>
+                    <div className="ba-RegionAnnotations-target">
+                        <RegionRect ref={this.setTargetRef} isActive shape={scaleShape(staged.shape, scale)} />
+                    </div>
                 )}
 
                 {/* Layer 3b: Staged (unsaved) annotation description popup, if 3a is ready */}
-                {isCreating && staged && canReply && rectRef && (
+                {isCreating && staged && canReply && targetRef && (
                     <div className="ba-RegionAnnotations-popup">
                         <PopupReply
                             isPending={isPending}
                             onCancel={this.handleCancel}
                             onChange={this.handleChange}
                             onSubmit={this.handleSubmit}
-                            reference={rectRef}
+                            reference={targetRef}
                             value={staged.message}
                         />
                     </div>

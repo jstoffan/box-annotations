@@ -26,24 +26,6 @@ describe('AnnotationTarget', () => {
         );
     };
 
-    describe('keyboard event handlers', () => {
-        test.each`
-            key            | callCount
-            ${KEYS.enter}  | ${1}
-            ${KEYS.escape} | ${0}
-            ${KEYS.space}  | ${1}
-        `('should handle the $key keypress event', ({ callCount, key }) => {
-            const wrapper = getWrapper();
-
-            wrapper.simulate('keyPress', { ...mockEvent, key });
-
-            expect(mockEvent.nativeEvent.stopImmediatePropagation).toHaveBeenCalledTimes(callCount);
-            expect(mockEvent.preventDefault).toHaveBeenCalledTimes(callCount);
-            expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(callCount);
-            expect(defaults.onSelect).toHaveBeenCalledTimes(callCount);
-        });
-    });
-
     describe('mouse event handlers', () => {
         test.each`
             event      | onSelectArgument
@@ -89,8 +71,7 @@ describe('AnnotationTarget', () => {
             const innerAnchor = wrapper.childAt(0);
             expect(innerAnchor.props()).toMatchObject({
                 className: 'ba-AnnotationTarget ba-Test',
-                role: 'button',
-                tabIndex: 0,
+                type: 'button',
             });
         });
     });

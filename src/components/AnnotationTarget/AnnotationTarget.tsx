@@ -2,14 +2,13 @@ import * as React from 'react';
 import classNames from 'classnames';
 import noop from 'lodash/noop';
 import scrollIntoView, { Options } from 'scroll-into-view-if-needed';
-import { KEYS } from 'box-ui-elements/es/constants';
 
 type Props = {
     annotationId: string;
-    children: React.ReactNode;
     className?: string;
     isActive?: boolean;
     onSelect?: (annotationId: string) => void;
+    style: React.CSSProperties;
 };
 
 const scrollOptions: Options = {
@@ -19,11 +18,13 @@ const scrollOptions: Options = {
     scrollMode: 'if-needed',
 };
 
-const AnnotationTarget = (props: Props, ref: React.Ref<HTMLAnchorElement>): JSX.Element => {
-    const { annotationId, children, className, isActive, onSelect = noop, ...rest } = props;
-    const innerRef = React.useRef<HTMLAnchorElement>(null);
+export type AnnotationTargetRef = HTMLButtonElement;
 
-    React.useImperativeHandle(ref, () => innerRef.current as HTMLAnchorElement, [innerRef]);
+export const AnnotationTarget = (props: Props, ref: React.Ref<AnnotationTargetRef>): JSX.Element => {
+    const { annotationId, className, isActive, onSelect = noop, ...rest } = props;
+    const innerRef = React.useRef<HTMLButtonElement>(null);
+
+    React.useImperativeHandle(ref, () => innerRef.current as HTMLButtonElement, [innerRef]);
     React.useEffect(() => {
         if (isActive && innerRef.current) {
             scrollIntoView(innerRef.current, scrollOptions);
@@ -46,33 +47,18 @@ const AnnotationTarget = (props: Props, ref: React.Ref<HTMLAnchorElement>): JSX.
         cancelEvent(event);
         onSelect(annotationId);
     };
-    const handleKeyPress = (event: React.KeyboardEvent): void => {
-        if (event.key !== KEYS.enter && event.key !== KEYS.space) {
-            return;
-        }
 
-        cancelEvent(event);
-        onSelect(annotationId);
-    };
-
-    // We use an anchor to allow the target to be used inside of SVG shapes where buttons aren't supported
     return (
-        // eslint-disable-next-line jsx-a11y/anchor-is-valid
-        <a
+        <button
             ref={innerRef}
             className={classNames('ba-AnnotationTarget', className)}
             data-testid={`ba-AnnotationTarget-${annotationId}`}
-            href="#" // Needed for IE11 to handle click events properly
             onBlur={handleBlur}
             onClick={handleClick}
             onFocus={handleFocus}
-            onKeyPress={handleKeyPress}
-            role="button"
-            tabIndex={0}
+            type="button"
             {...rest}
-        >
-            {children}
-        </a>
+        />
     );
 };
 

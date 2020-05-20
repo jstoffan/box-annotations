@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import AnnotationTarget from '../components/AnnotationTarget';
-import RegionRect from './RegionRect';
+import AnnotationTarget, { AnnotationTargetRef } from '../components/AnnotationTarget';
+import { getRegionStyle } from './RegionRect';
 import { Rect } from '../@types';
 import './RegionAnnotation.scss';
 
@@ -13,14 +13,19 @@ type Props = {
     shape: Rect;
 };
 
-const RegionAnnotation = (props: Props, ref: React.Ref<HTMLAnchorElement>): JSX.Element => {
+export type RegionAnnotationRef = AnnotationTargetRef;
+
+export const RegionAnnotation = (props: Props, ref: React.Ref<RegionAnnotationRef>): JSX.Element => {
     const { isActive, shape, ...rest } = props;
-    const className = classNames('ba-RegionAnnotation', { 'is-active': isActive });
 
     return (
-        <AnnotationTarget ref={ref} className={className} isActive={isActive} {...rest}>
-            <RegionRect {...shape} />
-        </AnnotationTarget>
+        <AnnotationTarget
+            ref={ref}
+            className={classNames('ba-RegionAnnotation', { 'is-active': isActive })}
+            isActive={isActive}
+            style={getRegionStyle(shape)}
+            {...rest}
+        />
     );
 };
 

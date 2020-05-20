@@ -2,8 +2,8 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { mount, ReactWrapper } from 'enzyme';
 import { mockEvent } from '../__mocks__/events';
+import RegionAnnotation from '../RegionAnnotation';
 import RegionCreator from '../RegionCreator';
-import RegionRect from '../RegionRect';
 import useAutoScroll from '../../common/useAutoScroll';
 
 jest.mock('../../common/useAutoScroll');
@@ -91,7 +91,7 @@ describe('RegionCreator', () => {
             jest.advanceTimersByTime(1000); // Advance by 100 frames (10 fps * 10 seconds)
             wrapper.update();
 
-            const rect = wrapper.find(RegionRect).getDOMNode();
+            const rect = wrapper.find(RegionAnnotation).getDOMNode();
             expect(rect.getAttribute('height')).toEqual(`${result.height}`);
             expect(rect.getAttribute('width')).toEqual(`${result.width}`);
             expect(rect.getAttribute('x')).toEqual(`${result.x}`);
@@ -199,7 +199,7 @@ describe('RegionCreator', () => {
             jest.advanceTimersByTime(1000);
             wrapper.update();
 
-            const rect = wrapper.find(RegionRect).getDOMNode();
+            const rect = wrapper.find(RegionAnnotation).getDOMNode();
             expect(rect.getAttribute('height')).toBe('50');
             expect(rect.getAttribute('width')).toBe('50');
             expect(rect.getAttribute('x')).toBe('50');

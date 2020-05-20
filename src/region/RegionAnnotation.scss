@@ -1,12 +1,114 @@
+@import '~box-ui-elements/es/styles/variables';
+
 .ba-RegionAnnotation {
+    position: absolute;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 0 0 1px $white, 0 0 0 3px $bdl-yellorange;
+
     &.is-active,
     &:focus,
     &:hover {
         outline: none;
+        box-shadow: 0 0 0 4px $bdl-yellorange;
         cursor: pointer;
-
-        .ba-RegionRect {
-            stroke-width: 4px;
-        }
     }
 }
+
+//.ba-RegionAnnotation {
+//    position: absolute;
+//    padding: 4px;
+//    background: transparent;
+//    border: none;
+//    box-shadow: none;
+//
+//    &::after {
+//        display: block;
+//        width: 100%;
+//        height: 100%;
+//        border-radius: 6px;
+//        box-shadow: 0 0 0 1px $white, 0 0 0 3px $bdl-yellorange;
+//        content: '';
+//    }
+//
+//    &.is-active,
+//    &:focus,
+//    &:hover {
+//        outline: none;
+//        cursor: pointer;
+//
+//        &::after {
+//            box-shadow: 0 0 0 4px $bdl-yellorange;
+//        }
+//    }
+//}
+
+//.ba-RegionAnnotation {
+//    position: absolute;
+//    padding: 0;
+//    background: transparent;
+//    border: none;
+//    box-shadow: none;
+//
+//    &::after {
+//        display: block;
+//        width: 100%;
+//        height: 100%;
+//        border-radius: 6px;
+//        box-shadow: 0 0 0 1px $white, 0 0 0 3px $bdl-yellorange;
+//        content: '';
+//    }
+//
+//    &.is-active,
+//    &:focus,
+//    &:hover {
+//        outline: none;
+//        cursor: pointer;
+//
+//        &::after {
+//            width: 100%;
+//            height: 100%;
+//            box-shadow: 0 0 0 1px $white, 0 0 0 5px $bdl-yellorange;
+//        }
+//    }
+//}
+
+//.ba-RegionAnnotation {
+//    $border-radius: 6px;
+//    $border-width: 2px;
+//    $border-width-delta: 2px;
+//
+//    position: absolute;
+//    padding: 0;
+//    background: transparent;
+//    border: none;
+//    box-shadow: none;
+//
+//    &::after {
+//        display: block;
+//        width: 100%;
+//        height: 100%;
+//        border: $border-width solid $bdl-yellorange;
+//        border-radius: $border-radius;
+//        box-shadow: 0 0 0 1px inset $white;
+//        content: '';
+//    }
+//
+//    &.is-active,
+//    &:focus,
+//    &:hover {
+//        outline: none;
+//        cursor: pointer;
+//
+//        &::after {
+//            width: calc(100% + #{$border-width-delta * 2});
+//            height: calc(100% + #{$border-width-delta * 2});
+//            margin-top: -#{$border-width-delta};
+//            margin-left: -#{$border-width-delta};
+//            border-width: $border-width + $border-width-delta;
+//            border-radius: $border-radius + $border-width-delta;
+//        }
+//    }
+//}
